@@ -13,7 +13,7 @@ const Square = ({ position, piece, isLight, onDrop }) => {
   return (
     <div
       ref={drop}
-      className={`w-16 h-16 flex items-center justify-center text-black text-xl 
+      className={`w-16 h-16 flex items-center justify-center
         ${isOver ? 'bg-blue-400' : isLight ? 'bg-gray-200' : 'bg-green-700'}`}
     >
       {piece && <Piece piece={piece} position={position} />}

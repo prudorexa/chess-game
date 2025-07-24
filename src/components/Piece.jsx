@@ -9,18 +9,15 @@ const Piece = ({ piece, position }) => {
     }),
   }));
 
-  const getSymbol = {
-    p: '♟', r: '♜', n: '♞', b: '♝', q: '♛', k: '♚',
-    P: '♙', R: '♖', N: '♘', B: '♗', Q: '♕', K: '♔',
-  };
+  const imageName = `${piece.color}${piece.type.toUpperCase()}`; // e.g., wP, bK
 
   return (
-    <div
+    <img
       ref={drag}
-      className={`text-2xl select-none ${isDragging ? 'opacity-30' : ''}`}
-    >
-      {getSymbol[piece.type.toUpperCase()]}
-    </div>
+      src={`/pieces/${imageName}.png`}
+      alt={imageName}
+      className={`w-full h-full object-contain ${isDragging ? 'opacity-30' : ''}`}
+    />
   );
 };
 

@@ -2,26 +2,17 @@ import { useEffect, useState, useRef } from "react";
 import { Chess } from "chess.js";
 import Square from "./Square";
 
-const moveSound = typeof Audio !== "undefined" ? new Audio("public/sounds/move.mp3") : null;
-const captureSound = typeof Audio !== "undefined" ? new Audio("public/sounds/capture_sound.mp3") : null;
-const gameOverSound = typeof Audio !== "undefined" ? new Audio("public/sounds/gameover.mp3") : null;
-const checkSound = typeof Audio !== "undefined" ? new Audio("public/sounds/check_sound.mp3") : null;
-const backgroundLoopSound = typeof Audio !== "undefined" ? new Audio("public/sounds/background_loop.mp3") : null;
-const gameLoseSound = typeof Audio !== "undefined" ? new Audio("public/sounds/game_lose.mp3") : null;
-const gameStartSound = typeof Audio !== "undefined" ? new Audio("public/sounds/game_start.mp3") : null;
-const uiclickSound = typeof Audio !== "undefined" ? new Audio("public/sounds/ui_click.mp3") : null;
+const moveSound = typeof Audio !== "undefined" ? new Audio("/sounds/move.mp3") : null;
+const captureSound = typeof Audio !== "undefined" ? new Audio("/sounds/capture_sound.mp3") : null;
+const gameOverSound = typeof Audio !== "undefined" ? new Audio("/sounds/gameover.mp3") : null;
+const checkSound = typeof Audio !== "undefined" ? new Audio("/sounds/check_sound.mp3") : null;
+const backgroundLoopSound = typeof Audio !== "undefined" ? new Audio("/sounds/background_loop.mp3") : null;
+const gameLoseSound = typeof Audio !== "undefined" ? new Audio("/sounds/game_lose.mp3") : null;
+const gameStartSound = typeof Audio !== "undefined" ? new Audio("/sounds/game_start.mp3") : null;
+const uiclickSound = typeof Audio !== "undefined" ? new Audio("/sounds/ui_click.mp3") : null;
 
 const files = ['a','b','c','d','e','f','g','h'];
 const ranks = [8,7,6,5,4,3,2,1];
-
-const pieceSymbols = {
-  pw: '♙', pb: '♟',
-  rw: '♖', rb: '♜',
-  nw: '♘', nb: '♞',
-  bw: '♗', bb: '♝',
-  qw: '♕', qb: '♛',
-  kw: '♔', kb: '♚',
-};
 
 const ChessBoard = () => {
   const [game, setGame] = useState(new Chess());
@@ -97,27 +88,29 @@ const ChessBoard = () => {
   };
 
   const renderSquare = (rank, file) => {
-  const square = `${file}${rank}`;
-  const piece = game.get(square);
-  const isLight = (files.indexOf(file) + ranks.indexOf(rank)) % 2 === 0;
-  const moveSound = typeof Audio !== "undefined" ? new Audio("/sounds/move.mp3") : null;
-  const pieceImage = piece ? `/pieces/${piece.color}${piece.type.toUpperCase()}.png` : null;
+    const square = `${file}${rank}`;
+    const piece = game.get(square);
+    const isLight = (files.indexOf(file) + ranks.indexOf(rank)) % 2 === 0;
 
-return (
-  <Square
-    key={square}
-    position={square}
-    isLight={isLight}
-    onDrop={handleDrop}
-  >
-    {piece && (
-     <img src={`/pieces/${piece.color.toUpperCase()}${piece.type.toUpperCase()}.png`} />
-     
-
-    )}
-  </Square>
-);
-};
+    return (
+      <Square
+        key={square}
+        position={square}
+        piece={piece}
+        isLight={isLight}
+        onDrop={handleDrop}
+      >
+        {piece && (
+          <img
+            src={`/pieces/${piece.color}_${piece.type}.png`}
+            alt={`${piece.color} ${piece.type}`}
+            className="w-full h-full object-contain"
+            draggable="false"
+          />
+        )}
+      </Square>
+    );
+  };
 
   const getBestMove = (moves) => {
     if (difficulty === 'easy') return moves[Math.floor(Math.random() * moves.length)];
